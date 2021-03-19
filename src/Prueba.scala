@@ -146,8 +146,6 @@ class Paciente(val nombre:String, val primerAp:String, val segundoAp:String, val
         humedad(coincidencias.head) + "% de humedad.")
     }
   }
-
-
 }
 
 
