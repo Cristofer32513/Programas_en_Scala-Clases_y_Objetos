@@ -126,6 +126,27 @@ class Paciente(val nombre:String, val primerAp:String, val segundoAp:String, val
     }
   }
 
+  //Metodos para la temperatura menor.
+  def obtenerTemperaturaMenor() : Unit = {
+    var menor = 100.0
+
+    for (i <- temperatura.indices) if(temperatura(i) < menor) menor = temperatura(i)
+
+    val coincidencias = buscarRepetida(temperatura, menor)
+
+    if(coincidencias.length > 1){
+      println("\nLa temperatura menor es de " + menor)
+      for (i <- coincidencias.indices) {
+        println("Se registro el " + fechaRegistro(coincidencias(i)) + " a las " + horaRegistro(coincidencias(i)) +
+          " con " + nivelBienestar(coincidencias(i)) + " de bienestar y " + humedad(coincidencias(i)) + "% de humedad.")
+      }
+    } else {
+      println("\nLa temperatura menor es de " + menor + ", se registro el " + fechaRegistro(coincidencias.head) +
+        " a las " + horaRegistro(coincidencias.head) + " con " + nivelBienestar(coincidencias.head) + " de bienestar y " +
+        humedad(coincidencias.head) + "% de humedad.")
+    }
+  }
+
 
 }
 
@@ -137,5 +158,6 @@ object Prueba {
     paciente1.mostrarListas()
     paciente1.mostrarListaPromedios(paciente1.obtenerPromediosBienestar())
     paciente1.obtenerTemperaturaMayor()
+    paciente1.obtenerTemperaturaMenor()
   }
 }
