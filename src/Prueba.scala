@@ -63,10 +63,7 @@ class Paciente(val nombre:String, val primerAp:String, val segundoAp:String, val
   }
 
 
-  def mostrarListaPromedios(lista:ListBuffer[Double]) : Unit = {
-    for (e <- lista.indices) println("\nPromedio del nivel " + (e+1) + ": " + lista(e))
-  }
-
+  //Metodos para el promedio de los niveles de bienestar.
   def obtenerPromediosBienestar() : ListBuffer[Double] = {
     val promedios = ListBuffer[Double]()
     var cont1 = 0
@@ -91,6 +88,45 @@ class Paciente(val nombre:String, val primerAp:String, val segundoAp:String, val
 
     promedios
   }
+
+  def mostrarListaPromedios(lista:ListBuffer[Double]) : Unit = {
+    for (e <- lista.indices) println("\nPromedio del nivel " + (e+1) + ": " + lista(e))
+  }
+
+
+
+
+  //Busca temperaturas repetidas y regresa una lista con las posiciones donde se encuentran.
+  def buscarRepetida(lista:ListBuffer[Double], valor:Double) : ListBuffer[Int] = {
+    val coincidencias = new ListBuffer[Int]()
+
+    for (e <- lista.indices) if(lista(e) == valor) coincidencias += e
+
+    coincidencias
+  }
+
+  //Metodos para la temperatura mayor.
+  def obtenerTemperaturaMayor() : Unit = {
+    var mayor = 0.0
+
+    for (i <- temperatura.indices) if(temperatura(i) > mayor) mayor = temperatura(i)
+
+    val coincidencias = buscarRepetida(temperatura, mayor)
+
+    if(coincidencias.length > 1){
+      println("\nLa temperatura mayor es de " + mayor)
+      for (i <- coincidencias.indices) {
+        println("Se registro el " + fechaRegistro(coincidencias(i)) + " a las " + horaRegistro(coincidencias(i)) +
+          " con " + nivelBienestar(coincidencias(i)) + " de bienestar y " + humedad(coincidencias(i)) + "% de humedad.")
+      }
+    } else {
+      println("\nLa temperatura mayor es de " + mayor + ", se registro el " + fechaRegistro(coincidencias.head) +
+        " a las " + horaRegistro(coincidencias.head) + " con " + nivelBienestar(coincidencias.head) + " de bienestar y " +
+        humedad(coincidencias.head) + "% de humedad.")
+    }
+  }
+
+
 }
 
 
@@ -100,6 +136,6 @@ object Prueba {
     val paciente1 = new Paciente("Cristofer", "Casas", "Murillo", 21.toByte)
     paciente1.mostrarListas()
     paciente1.mostrarListaPromedios(paciente1.obtenerPromediosBienestar())
-
+    paciente1.obtenerTemperaturaMayor()
   }
 }
